@@ -1,0 +1,30 @@
+apiVersion: 1
+
+deleteDatasources:
+  - name: PostgreSQL-Docker
+    orgId: 1
+
+datasources:
+  - name: PostgreSQL-Docker
+    type: postgres
+    access: proxy
+    orgId: 1
+    url: postgres_db:5432
+    user: myuser
+    database: cryptoproj
+    basicAuth: false
+    basicAuthUser:
+    withCredentials:
+    isDefault:
+    jsonData:
+      tlsAuth: false
+      tlsAuthWithCACert: false
+      sslmode: disable
+    secureJsonData:
+      tlsCACert: ''
+      tlsClientCert: ''
+      tlsClientKey: ''
+      password: mypassword
+      basicAuthPassword:
+    version: 1
+    editable: true

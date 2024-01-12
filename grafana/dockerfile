@@ -1,0 +1,6 @@
+FROM grafana/grafana:latest
+
+COPY dashboard.json /var/lib/grafana/dashboards/exported_dashboard.json
+COPY live_prices.json /var/lib/grafana/dashboards/live_prices.json
+COPY datasources.yaml /etc/grafana/provisioning/datasources/default.yaml
+COPY dashboards.yaml /etc/grafana/provisioning/dashboards/default.yaml

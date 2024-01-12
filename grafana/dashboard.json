@@ -1,0 +1,424 @@
+{
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "grafana"
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "links": [],
+    "liveNow": false,
+    "panels": [
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        },
+        "id": 3,
+        "panels": [],
+        "repeat": "top_10_coins",
+        "repeatDirection": "h",
+        "title": "${top_10_coins}",
+        "type": "row"
+      },
+      {
+        "datasource": "PostgreSQL-Docker",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "continuous-RdYlGr"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 20,
+              "gradientMode": "scheme",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "insertNulls": false,
+              "lineInterpolation": "smooth",
+              "lineWidth": 3,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "currencyUSD"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 9,
+          "w": 18,
+          "x": 0,
+          "y": 1
+        },
+        "id": 1,
+        "interval": "5m",
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "hidden",
+            "placement": "right",
+            "showLegend": false
+          },
+          "timezone": [
+            "Europe/Paris"
+          ],
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "targets": [
+          {
+            "datasource": "PostgreSQL-Docker",
+            "editorMode": "builder",
+            "format": "time_series",
+            "rawQuery": true,
+            "rawSql": "SELECT price, \"time\", coin_name FROM coin_prices WHERE coin_name = '${top_10_coins:raw}' ORDER BY \"time\" ",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [
+                    {
+                      "name": "price",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                },
+                {
+                  "parameters": [
+                    {
+                      "name": "\"time\"",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                },
+                {
+                  "parameters": [
+                    {
+                      "name": "coin_name",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "orderBy": {
+                "property": {
+                  "name": [
+                    "\"time\""
+                  ],
+                  "type": "string"
+                },
+                "type": "property"
+              },
+              "whereJsonTree": {
+                "children1": [
+                  {
+                    "id": "999aa9ab-4567-489a-bcde-f18cf8dd9bc8",
+                    "properties": {
+                      "field": "coin_name",
+                      "fieldSrc": "field",
+                      "operator": "equal",
+                      "value": [
+                        "${top_10_coins:raw}"
+                      ],
+                      "valueSrc": [
+                        "value"
+                      ],
+                      "valueType": [
+                        "text"
+                      ]
+                    },
+                    "type": "rule"
+                  }
+                ],
+                "id": "8a889b99-0123-4456-b89a-b18cf8dc7916",
+                "type": "group"
+              },
+              "whereString": "coin_name = '${top_10_coins:raw}'"
+            },
+            "table": "coin_prices"
+          }
+        ],
+        "title": "${top_10_coins} price",
+        "type": "timeseries"
+      },
+      {
+        "datasource": "PostgreSQL-Docker",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "continuous-RdYlGr"
+            },
+            "fieldMinMax": true,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 10
+                }
+              ]
+            },
+            "unit": "currencyUSD"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 9,
+          "w": 6,
+          "x": 18,
+          "y": 1
+        },
+        "id": 5,
+        "options": {
+          "minVizHeight": 200,
+          "minVizWidth": 200,
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "/^price$/",
+            "values": false
+          },
+          "showThresholdLabels": false,
+          "showThresholdMarkers": true,
+          "sizing": "auto"
+        },
+        "pluginVersion": "10.2.3",
+        "targets": [
+          {
+            "datasource": "PostgreSQL-Docker",
+            "editorMode": "builder",
+            "format": "table",
+            "rawSql": "SELECT price, coin_name FROM coin_prices WHERE coin_name = '${top_10_coins:raw}' ORDER BY \"time\" ASC ",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [
+                    {
+                      "name": "price",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                },
+                {
+                  "parameters": [
+                    {
+                      "name": "coin_name",
+                      "type": "functionParameter"
+                    }
+                  ],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "orderBy": {
+                "property": {
+                  "name": "\"time\"",
+                  "type": "string"
+                },
+                "type": "property"
+              },
+              "orderByDirection": "ASC",
+              "whereJsonTree": {
+                "children1": [
+                  {
+                    "id": "989a98a8-89ab-4cde-b012-318cf8e4dad8",
+                    "properties": {
+                      "field": "coin_name",
+                      "fieldSrc": "field",
+                      "operator": "equal",
+                      "value": [
+                        "${top_10_coins:raw}"
+                      ],
+                      "valueSrc": [
+                        "value"
+                      ],
+                      "valueType": [
+                        "text"
+                      ]
+                    },
+                    "type": "rule"
+                  }
+                ],
+                "id": "8a889b99-0123-4456-b89a-b18cf8dc7916",
+                "type": "group"
+              },
+              "whereString": "coin_name = '${top_10_coins:raw}'"
+            },
+            "table": "coin_prices"
+          }
+        ],
+        "title": "${top_10_coins} last value",
+        "type": "gauge"
+      }
+    ],
+    "refresh": "30s",
+    "schemaVersion": 39,
+    "tags": [],
+    "templating": {
+      "list": [
+        {
+          "current": {
+            "selected": true,
+            "text": [
+              "All"
+            ],
+            "value": [
+              "$__all"
+            ]
+          },
+          "hide": 0,
+          "includeAll": true,
+          "label": "Top 10 coins",
+          "multi": true,
+          "name": "top_10_coins",
+          "options": [
+            {
+              "selected": true,
+              "text": "All",
+              "value": "$__all"
+            },
+            {
+              "selected": false,
+              "text": "bitcoin",
+              "value": "bitcoin"
+            },
+            {
+              "selected": false,
+              "text": "ethereum",
+              "value": "ethereum"
+            },
+            {
+              "selected": false,
+              "text": "tether",
+              "value": "tether"
+            },
+            {
+              "selected": false,
+              "text": "binance-coin",
+              "value": "binance-coin"
+            },
+            {
+              "selected": false,
+              "text": "solana",
+              "value": "solana"
+            },
+            {
+              "selected": false,
+              "text": "xrp",
+              "value": "xrp"
+            },
+            {
+              "selected": false,
+              "text": "usd-coin",
+              "value": "usd-coin"
+            },
+            {
+              "selected": false,
+              "text": "cardano",
+              "value": "cardano"
+            },
+            {
+              "selected": false,
+              "text": "avalanche",
+              "value": "avalanche"
+            },
+            {
+              "selected": false,
+              "text": "dogecoin",
+              "value": "dogecoin"
+            }
+          ],
+          "query": "bitcoin,ethereum,tether,binance-coin,solana,xrp,usd-coin,cardano,avalanche,dogecoin",
+          "queryValue": "",
+          "skipUrlSync": false,
+          "type": "custom"
+        }
+      ]
+    },
+    "time": {
+      "from": "now-6M",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "",
+    "title": "Crypto Analysis - Top 10 assets",
+    "version": 1,
+    "weekStart": ""
+  }
